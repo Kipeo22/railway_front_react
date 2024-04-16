@@ -1,7 +1,9 @@
-// @ts-check
-
-export const DogImage = () => {
-  return <></>
+export const DogImage = props => {
+  return (
+    <div className="imgbox">
+      <img src={props.imageUrl} alt="" />
+    </div>
+  )
 }
 
 export default DogImage

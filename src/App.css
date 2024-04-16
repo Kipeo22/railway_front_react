@@ -8,6 +8,7 @@ header {
   font-size: 50px;
   font-weight: bold;
   text-align: center;
+  width: 100%;
 }
 
 .content-box {
@@ -16,6 +17,7 @@ header {
   gap: 50px;
   justify-content: center;
   margin: 30px;
+  flex-wrap: wrap;
 }
 .content-box p {
   width: 400px;

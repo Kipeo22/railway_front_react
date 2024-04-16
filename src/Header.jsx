@@ -1,7 +1,7 @@
 // @ts-check
 
 export const Header = () => {
-  return <></>
+  return <header>DOGギャラリー</header>
 }
 
 export default Header
