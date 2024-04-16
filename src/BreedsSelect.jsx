@@ -1,12 +1,17 @@
 import { useState } from 'react'
 
 export const BreedsSelect = props => {
-  console.log(props.breeds)
+  let onChange = props.onChange
+  const options = props.breeds.map(option => (
+    <option value={option} key={option}>
+      {option}
+    </option>
+  ))
+
   return (
     <div>
-      {/* <li>{props.breeds}</li> */}
-      <select name="" id="">
-        <option value=""></option>
+      <select name="breed" onChange={e => onChange(e.target.props.value)}>
+        {options}
       </select>
     </div>
   )
