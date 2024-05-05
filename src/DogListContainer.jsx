@@ -1,41 +1,37 @@
+// @ts-check
+
 import React, { useEffect, useState } from 'react'
 import BreedsSelect from './BreedsSelect'
 import { data } from 'browserslist'
 
 export const DogListContainer = () => {
   const [breeds, setBreeds] = useState([])
-  const [selectedBreed, setSelectedBreed] = useState('')
-  const [urls, setUrls] = useState([])
-
-  const handleChange = selectedBreed => {
-    setSelectedBreed(selectedBreed)
-  }
-
-  const fetchImages = async () => {
-    if (selectedBreed) {
-      try {
-        const response = await fetch(
-          `https://dog.ceo/api/breed/${selectedBreed}/images/random/12`,
-        )
-        const data = await response.json()
-        setUrls(data.message)
-      } catch (error) {
-        console.error('Error fetching images:', error)
-      }
-    }
-  }
+  const [selectedBreed, setSelectedBreed] = useState('affenpinscher')
+  const [dogImageList, setDogImageList] = useState([])
 
   useEffect(() => {
-    async function DogList() {
+    const fetchBreeds = async () => {
       const response = await fetch('https://dog.ceo/api/breeds/list/all')
       const data = await response.json()
-      // console.log(data.message)
-      // setBreeds(data.message)
-      const breedsList = data.message
-      setBreeds(Object.keys(breedsList))
+      setBreeds(Object.keys(data.message))
+      fetchImages('affenpinscher')
     }
-    DogList()
-  }, []) //第二引数が空のとき、初回のみ実行
+
+    fetchBreeds()
+  }, [])
+
+  const handleChange = breed => {
+    setSelectedBreed(breed)
+  }
+
+  const showImages = async () => {
+    if (selectedBreed) {
+      const url = `https://dog.ceo/api/breed/${selectedBreed}/images/random/12`
+      const response = await fetch(url)
+      const data = await response.json()
+      setDogImageList(data.message)
+    }
+  }
 
   return (
     <>
@@ -43,22 +39,22 @@ export const DogListContainer = () => {
         breeds={breeds}
         value={selectedBreed}
         onChange={handleChange}
-        onShowImages={fetchImages}
       />
-      <div>
-        {urls.length > 0 && (
-          <div>
-            <h2>{selectedBreed}の画像リスト</h2>
-            <ul>
-              {urls.map((url, index) => (
-                <li key={index}>
-                  <img src={url} alt={`Dog ${index + 1}`} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      <button onClick={showImages}>表示</button>
+      <ul
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          padding: 0,
+          listStyleType: 'none',
+        }}
+      >
+        {dogImageList.map((image, index) => (
+          <li key={index} style={{ margin: '10px' }}>
+            <img src={image} alt="Dog" style={{ width: '150px' }} />
+          </li>
+        ))}
+      </ul>
     </>
   )
 }

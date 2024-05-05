@@ -1,3 +1,5 @@
+// @ts-check
+
 export const DogImage = props => {
   return (
     <div className="imgbox">
